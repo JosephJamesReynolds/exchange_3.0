@@ -1,21 +1,33 @@
+const {
+  loadFixture,
+} = require("@nomicfoundation/hardhat-toolbox/network-helpers");
 const { expect } = require("chai");
-const { ethers } = require("hardhat")
+const { ethers } = require("hardhat");
+
+async function deployTokenFixture() {
+  const token = await ethers.deployContract("Token");
+
+  return { token };
+}
 
 describe("Token", () => {
+  let token;
 
-    it("Has correct name", async () => {
-    //    const Token = await ethers.getContractFactory("Token")
-       const token = await ethers.deployContract("Token");
-    //    const token = await Token.deploy()
+  beforeEach(async () => {
+    ({ token } = await loadFixture(deployTokenFixture));
+  });
 
+  it("Has correct name", async () => {
+    const name = await token.name();
 
-       const name = await token.name()
-       
-       expect(name).to.equal("Reynolds Token")
+    console.log(await token.name());
 
-    //    const symbol = await token.symbol()
+    expect(name).to.equal("Reynolds Token");
+  });
+  it("Has correct symbol", async () => {
+    const symbol = await token.symbol();
 
-    //    expect(symbol).to.equal("RTK");
-       
-    })
-}) 
+    expect(symbol).to.equal("RTK");
+  });
+  it("Has correct decimals", async () => {});
+});
