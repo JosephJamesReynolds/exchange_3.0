@@ -10,6 +10,10 @@ async function deployTokenFixture() {
   return { token };
 }
 
+const tokens = (n) => {
+  return ethers.parseUnits(n.toString(), 18);
+};
+
 describe("Token", () => {
   let token;
 
@@ -29,5 +33,12 @@ describe("Token", () => {
 
     expect(symbol).to.equal("RTK");
   });
-  it("Has correct decimals", async () => {});
+  it("Has correct decimals", async () => {
+    const { token } = await loadFixture(deployTokenFixture);
+    expect(await token.decimals()).to.equal(18);
+  });
+  it("Had correct total supply", async () => {
+    const { token } = await loadFixture(deployTokenFixture);
+    expect(await token.totalSupply()).to.equal(tokens("20000000"));
+  });
 });
