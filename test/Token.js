@@ -4,11 +4,7 @@ const {
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-async function deployTokenFixture() {
-  const token = await ethers.deployContract("Token");
-
-  return { token };
-}
+const { deployTokenFixture } = require("./helpers/TokenFixtures.js");
 
 const tokens = (n) => {
   return ethers.parseUnits(n.toString(), 18);
@@ -37,8 +33,14 @@ describe("Token", () => {
     const { token } = await loadFixture(deployTokenFixture);
     expect(await token.decimals()).to.equal(18);
   });
-  it("Had correct total supply", async () => {
+  it("Has correct total supply", async () => {
     const { token } = await loadFixture(deployTokenFixture);
     expect(await token.totalSupply()).to.equal(tokens("20000000"));
+  });
+  it("Assigns total supply to deployer", async () => {
+    const { token, deployer } = await loadFixture(deployTokenFixture);
+    expect(await token.balanceOf(deployer.address)).to.equal(
+      tokens("20000000")
+    );
   });
 });
