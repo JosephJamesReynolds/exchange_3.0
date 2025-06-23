@@ -12,35 +12,31 @@ const tokens = (n) => {
 
 describe("Token", () => {
   let token;
+  let deployer;
+  const NAME = "Reynolds Token";
+  const SYMBOL = "RTK";
+  const DECIMALS = 18;
+  const TOTALSUPPLY = "20000000";
 
   beforeEach(async () => {
-    ({ token } = await loadFixture(deployTokenFixture));
+    ({ token, deployer } = await loadFixture(deployTokenFixture));
   });
 
   it("Has correct name", async () => {
-    const name = await token.name();
-
-    console.log(await token.name());
-
-    expect(name).to.equal("Reynolds Token");
+    expect(await token.name()).to.equal(NAME);
   });
   it("Has correct symbol", async () => {
-    const symbol = await token.symbol();
-
-    expect(symbol).to.equal("RTK");
+    expect(await token.symbol()).to.equal(SYMBOL);
   });
   it("Has correct decimals", async () => {
-    const { token } = await loadFixture(deployTokenFixture);
-    expect(await token.decimals()).to.equal(18);
+    expect(await token.decimals()).to.equal(DECIMALS);
   });
   it("Has correct total supply", async () => {
-    const { token } = await loadFixture(deployTokenFixture);
-    expect(await token.totalSupply()).to.equal(tokens("20000000"));
+    expect(await token.totalSupply()).to.equal(tokens(TOTALSUPPLY));
   });
   it("Assigns total supply to deployer", async () => {
-    const { token, deployer } = await loadFixture(deployTokenFixture);
     expect(await token.balanceOf(deployer.address)).to.equal(
-      tokens("20000000")
+      tokens(TOTALSUPPLY)
     );
   });
 });
