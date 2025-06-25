@@ -19,7 +19,9 @@ describe("Token", () => {
   const TOTALSUPPLY = "20000000";
 
   beforeEach(async () => {
-    ({ token, deployer } = await loadFixture(deployTokenFixture));
+    ({ token, deployer, receiver, exchange, user1, user2 } = await loadFixture(
+      deployTokenFixture
+    ));
   });
 
   it("Has correct name", async () => {
@@ -38,5 +40,11 @@ describe("Token", () => {
     expect(await token.balanceOf(deployer.address)).to.equal(
       tokens(TOTALSUPPLY)
     );
+  });
+  it("Successfully emits transfer", async () => {
+    const amount = tokens("100");
+    await expect(token.transfer(receiver.address, amount))
+      .to.emit(token, "Transfer")
+      .withArgs(deployer.address, receiver.address, amount);
   });
 });

@@ -1,7 +1,13 @@
 {
   "name": "bootcamp-v3",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "hardhat": "^2.24.0"
+    "hardhat": "^2.24.0",
+    "prettier": "^3.6.0",
+    "prettier-plugin-solidity": "^1.3.1"
   }
 }
