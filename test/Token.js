@@ -47,4 +47,8 @@ describe("Token", () => {
       .to.emit(token, "Transfer")
       .withArgs(deployer.address, receiver.address, amount);
   });
+  it("Rejects insufficient balances", async () => {
+    const invalidAmount = tokens("100000000");
+    await expect(token.transfer(receiver.address, invalidAmount)).to.revertedWith("Insufficient Balance");
+  })
 });

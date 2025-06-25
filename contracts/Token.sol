@@ -26,7 +26,7 @@ contract Token {
 
     function _transfer(address from, address to, uint256 value) internal {
         require(to != address(0), "Transfer to zero address");
-        require(balanceOf[from] >= value, "Insufficent Balance");
+        require(balanceOf[from] >= value, "Insufficient Balance");
 
         balanceOf[from] -= value;
         balanceOf[to] += value;
