@@ -19,9 +19,8 @@ describe("Token", () => {
   const TOTALSUPPLY = "20000000";
 
   beforeEach(async () => {
-    ({ token, deployer, receiver, exchange, user1, user2 } = await loadFixture(
-      deployTokenFixture
-    ));
+    ({ token, deployer, receiver, exchange, user1, user2 } =
+      await loadFixture(deployTokenFixture));
   });
 
   it("Has correct name", async () => {
@@ -38,7 +37,7 @@ describe("Token", () => {
   });
   it("Assigns total supply to deployer", async () => {
     expect(await token.balanceOf(deployer.address)).to.equal(
-      tokens(TOTALSUPPLY)
+      tokens(TOTALSUPPLY),
     );
   });
   it("Successfully emits transfer", async () => {
@@ -47,8 +46,17 @@ describe("Token", () => {
       .to.emit(token, "Transfer")
       .withArgs(deployer.address, receiver.address, amount);
   });
+  it("Rejects transfering to wrong address", async () => {
+    const amount = tokens("100");
+    const invalidAddress = "0x0000000000000000000000000000000000000000";
+    await expect(token.transfer(invalidAddress, amount)).to.revertedWith(
+      "Transfer to zero address",
+    );
+  });
   it("Rejects insufficient balances", async () => {
     const invalidAmount = tokens("100000000");
-    await expect(token.transfer(receiver.address, invalidAmount)).to.revertedWith("Insufficient Balance");
-  })
+    await expect(
+      token.transfer(receiver.address, invalidAmount),
+    ).to.revertedWith("Insufficient Balance");
+  });
 });
