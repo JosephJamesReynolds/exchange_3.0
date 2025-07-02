@@ -39,6 +39,8 @@ contract Token {
     }
 
     function approve(address spender, uint256 amount) external returns (bool) {
+        require(spender != address(0), "Approve to zero address");
+
         allowance[msg.sender][spender] = amount;
 
         emit Approval(msg.sender, spender, amount);

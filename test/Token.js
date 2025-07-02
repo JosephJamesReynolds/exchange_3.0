@@ -77,9 +77,12 @@ describe("Token", () => {
       );
     });
     describe("Failure", () => {
-      it("Rejects approval for multiple spenders", async () => {
-        const 
-      })
-    }
+      it("Rejects approval to zero address", async () => {
+        const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+        await expect(
+          token.connect(deployer).approve(ZERO_ADDRESS, tokens("100")),
+        ).to.be.revertedWith("Approve to zero address");
+      });
+    });
   });
 });
