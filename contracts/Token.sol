@@ -40,6 +40,7 @@ contract Token {
 
     function approve(address spender, uint256 amount) external returns (bool) {
         require(spender != address(0), "Approve to zero address");
+        require(spender != msg.sender, "Cannot approve yourself");
 
         allowance[msg.sender][spender] = amount;
 

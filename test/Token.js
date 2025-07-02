@@ -83,6 +83,11 @@ describe("Token", () => {
           token.connect(deployer).approve(ZERO_ADDRESS, tokens("100")),
         ).to.be.revertedWith("Approve to zero address");
       });
+      it("Rejects self approval", async () => {
+        await expect(
+          token.connect(deployer).approve(deployer.address, tokens("100")),
+        ).to.be.revertedWith("Cannot approve yourself");
+      });
     });
   });
 });
