@@ -9,7 +9,11 @@ contract Token {
 
     mapping(address => uint256) public balanceOf;
 
+    mapping(address => mapping(address => uint256)) public allowance;
+
     event Transfer(address indexed from, address indexed to, uint256 value);
+
+    event Approval(address indexed owner, address indexed spender, uint256 value);
 
     constructor(string memory name_, string memory symbol_, uint256 totalSupply_) {
         name = name_;
@@ -32,5 +36,12 @@ contract Token {
         balanceOf[to] += value;
 
         emit Transfer(from, to, value);
+    }
+
+    function approve(address spender, uint256 amount) external returns (bool) {
+        allowance[msg.sender][spender] = amount;
+
+        emit Approval(msg.sender, spender, amount);
+        return true;
     }
 }
