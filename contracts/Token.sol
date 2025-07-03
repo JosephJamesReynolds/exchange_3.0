@@ -47,4 +47,13 @@ contract Token {
         emit Approval(msg.sender, spender, amount);
         return true;
     }
+
+    function transferFrom(address from, address to, uint256 value) public returns (bool) {
+        require(allowance[from][msg.sender] >= value, "Insufficient allowance");
+
+        allowance[from][msg.sender] -= value;
+
+        _transfer(from, to, value);
+        return true;
+    }
 }

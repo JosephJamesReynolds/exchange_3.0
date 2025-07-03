@@ -90,4 +90,18 @@ describe("Token", () => {
       });
     });
   });
+  describe("Transfer from", () => {
+    it("Successfully emits transfer from", async () => {
+      const amount = tokens("100");
+      await expect(
+        await token.connect(deployer).approve(exchange.address, amount),
+        await token
+          .connect(exchange)
+          .transferFrom(deployer.address, receiver.address, amount),
+      )
+        .to.emit(tokens, "_transfer")
+        .withArgs(exchange.address, receiver.address, amount);
+    });
+    describe("Failure", () => {});
+  });
 });
