@@ -93,15 +93,25 @@ describe("Token", () => {
   describe("Transfer from", () => {
     it("Successfully emits transfer from", async () => {
       const amount = tokens("100");
+      await token.connect(deployer).approve(exchange.address, amount);
+
       await expect(
-        await token.connect(deployer).approve(exchange.address, amount),
-        await token
+        token
           .connect(exchange)
           .transferFrom(deployer.address, receiver.address, amount),
       )
-        .to.emit(tokens, "_transfer")
-        .withArgs(exchange.address, receiver.address, amount);
+        .to.emit(token, "Transfer")
+        .withArgs(deployer.address, receiver.address, amount);
     });
-    describe("Failure", () => {});
+    describe("Failure", () => {
+      it("Has insufficient allowance", async () => {
+        const amount = tokens("25000000");
+        await expect(
+          token
+            .connect(exchange)
+            .transferFrom(deployer.address, receiver.address, amount),
+        ).to.be.revertedWith("Insufficient allowance");
+      });
+    });
   });
 });
