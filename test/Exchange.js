@@ -4,7 +4,7 @@ const {
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-const { deployTokenFixture } = require("./helpers/TokenFixtures.js");
+const { deployExchangeFixture } = require("./helpers/ExchangeFixtures.js");
 
 const tokens = (n) => {
   return ethers.parseUnits(n.toString(), 18);
@@ -16,6 +16,8 @@ describe("Exchange", () => {
   //       await loadFixture(deployTokenFixture));
   //   });
   describe("Deployment", () => {
-    it("", async () => {});
+    it("", async () => {
+      await loadFixture(deployExchangeFixture);
+    });
   });
 });
