@@ -11,13 +11,20 @@ const tokens = (n) => {
 };
 
 describe("Exchange", () => {
-  //   beforeEach(async () => {
-  //     ({ token, deployer, receiver, exchange, user1, user2 } =
-  //       await loadFixture(deployTokenFixture));
-  //   });
+  let exchange;
+  let accounts;
+  const FEE_PERCENT = 1;
+
+  beforeEach(async () => {
+    ({ exchange, accounts } = await loadFixture(deployExchangeFixture));
+  });
   describe("Deployment", () => {
-    it("", async () => {
-      await loadFixture(deployExchangeFixture);
+    it("Tracks the fee account", async () => {
+      expect(await exchange.feeAccount()).to.equal(accounts.feeAccount.address);
+    });
+
+    it("Tracks the fee account", async () => {
+      expect(await exchange.feePercent()).to.equal(FEE_PERCENT);
     });
   });
 });
